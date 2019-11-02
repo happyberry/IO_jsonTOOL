@@ -1,1 +1,10 @@
 language: Java
+notification:
+    email:
+        recipients:
+            - eryk.szpotanski@student.put.poznan.pl
+            - jakub.raczynski@student.put.poznan.pl
+            - julia.tadej@student.put.poznan.pl
+            - jakub.gorny@student.put.poznan.pl
+        on_success: never
+        on_failure: always
