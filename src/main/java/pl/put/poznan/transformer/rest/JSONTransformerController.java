@@ -15,33 +15,28 @@ public class JSONTransformerController {
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public String get(@PathVariable String text,
-                              @RequestParam(value="transforms", defaultValue="upper,escape") 
-String[] transforms) {
+                @RequestParam(value="transforms", defaultValue="upper,escape") String[] transforms) {
 
-	//System.out.println(transforms);
         // log the parameters
         logger.debug(text);
         logger.debug(Arrays.toString(transforms));
-	//System.out.println(transforms);
 
         // do the transformation, you should run your logic here, below just a silly example
-        JSONTransformer transformer = new JSONTransformer(transforms);
-        return transformer.transform(text);
+        JSONTransformer transformer = new JSONTransformer(text, transforms, logger);
+        return text;
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public String post(@PathVariable String text,
                       @RequestBody String[] transforms) {
 
-	//System.out.println(transforms);
         // log the parameters
         logger.debug(text);
         logger.debug(Arrays.toString(transforms));
-	//System.out.println(transforms);
 
         // do the transformation, you should run your logic here, below just a silly example
-        JSONTransformer transformer = new JSONTransformer(transforms);
-        return transformer.transform(text);
+        JSONTransformer transformer = new JSONTransformer(text, transforms, logger);
+        return text;
     }
 
 
