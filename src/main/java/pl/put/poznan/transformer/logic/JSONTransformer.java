@@ -3,11 +3,11 @@ package pl.put.poznan.transformer.logic;
 /**
  * This is just an example to show that the logic should be outside the REST service.
  */
-public class TextTransformer {
+public class JSONTransformer {
 
     private final String[] transforms;
 
-    public TextTransformer(String[] transforms){
+    public JSONTransformer(String[] transforms){
         this.transforms = transforms;
     }
 
