@@ -9,7 +9,7 @@ import org.slf4j.Logger;
  */
 public class JSONTransformer {
 
-    private JSONArray jsonArray;
+    public JSONArray jsonArray;
     private final String[] transforms;
     private Logger logger;
 
