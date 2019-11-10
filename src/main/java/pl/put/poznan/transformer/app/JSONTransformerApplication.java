@@ -3,13 +3,17 @@ package pl.put.poznan.transformer.app;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.put.poznan.transformer.logic.JSONMinifier;
 import pl.put.poznan.transformer.logic.JSONTransformer;
+import pl.put.poznan.transformer.logic.JSONUnminifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.put.poznan.transformer.logic.JSONUnminifier;
 
 
 @SpringBootApplication(scanBasePackages = {"pl.put.poznan.transformer.rest"})
@@ -45,11 +49,28 @@ public class JSONTransformerApplication {
         String minifiedJSON = minifier.minify(transformer.jsonArray);
         FileWriter writer = null;
         try {
-            writer = new FileWriter("example.json");
+            writer = new FileWriter("minifiedExample.json");
             writer.write(minifiedJSON);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        JSONUnminifier unminifier = new JSONUnminifier();
+        JSONArray toTestUnminify = null;
+        String unminifiedJSON = null;
+        try{
+            toTestUnminify = new JSONArray("["+minifiedJSON+"]");
+            unminifiedJSON = unminifier.unminify(toTestUnminify);
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+        try{
+            writer = new FileWriter("unminifiedExample.json");
+            writer.write(unminifiedJSON);
+            writer.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 }
