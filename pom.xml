@@ -52,7 +52,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.6.0</version>
 				<configuration>
-					<mainClass>pl.put.poznan.transformer.app.TextTransformerApplication</mainClass>
+					<mainClass>pl.put.poznan.transformer.app.JSONTransformerApplication</mainClass>
 				</configuration>
 			</plugin>
         </plugins>
