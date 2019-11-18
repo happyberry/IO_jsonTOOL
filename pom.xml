@@ -29,11 +29,11 @@
             <artifactId>json-path</artifactId>
             <scope>test</scope>
     </dependency>
-	<dependency>
-		<groupId>org.json</groupId>
-		<artifactId>org.json</artifactId>
-		<version>chargebee-1.0</version>
-	</dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20190722</version>
+        </dependency>
     </dependencies>
 
     <properties>
