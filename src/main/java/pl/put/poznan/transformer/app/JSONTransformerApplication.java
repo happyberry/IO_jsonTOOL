@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.put.poznan.transformer.logic.JSONMinifier;
@@ -72,7 +71,7 @@ public class JSONTransformerApplication {
         } catch (IOException e){
             e.printStackTrace();
         }
-        JSONTransformer transformer2 = new JSONTransformer("{\n" +
+        String example = "{\n" +
                 "    \"glossary\": {\n" +
                 "        \"title\": \"example glossary\",\n" +
                 "\t\t\"GlossDiv\": {\n" +
@@ -82,8 +81,8 @@ public class JSONTransformerApplication {
                 "                    \"ID\": \"SGML\",\n" +
                 "\t\t\t\t\t\"SortAs\": \"SGML\",\n" +
                 "\t\t\t\t\t\"GlossTerm\": \"Standard Generalized Markup Language\",\n" +
-                "\t\t\t\t\t\"Abbrev\": \"ISO 8879:1986\",\n" +
                 "\t\t\t\t\t\"Acronym\": \"SGML\",\n" +
+                "\t\t\t\t\t\"Abbrev\": \"ISO 8879:1986\",\n" +
                 "\t\t\t\t\t\"GlossDef\": {\n" +
                 "                        \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",\n" +
                 "\t\t\t\t\t\t\"GlossSeeAlso\": [\"GML\", \"XML\"]\n" +
@@ -93,9 +92,18 @@ public class JSONTransformerApplication {
                 "            }\n" +
                 "        }\n" +
                 "    }\n" +
-                "}", stringArray, logger);
+                "}";
         JSONCompare comparator = new JSONCompare(logger);
-        logger.debug("Similar: " + comparator.Compare(transformer.jsonArray, transformer2.jsonArray));
-
+        String example2 = "";
+        String tri = "";
+        try {
+            JSONArray ex = new JSONArray("[" + unminifiedJSON + "]");
+            tri = minifier.minify(ex);
+            ex = new JSONArray("[" + tri + "]");
+            tri = unminifier.unminify(ex);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        logger.debug("Similar: " + comparator.Compare(unminifiedJSON, tri));
     }
 }
