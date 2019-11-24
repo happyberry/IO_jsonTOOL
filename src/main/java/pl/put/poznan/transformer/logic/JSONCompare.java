@@ -14,8 +14,8 @@ public class JSONCompare {
     public JSONCompare(Logger logger) {
         this.logger = logger;
     }
-    public List<String> getDifference1() { return difference1; }
-    public List<String> getDifference2() { return difference2; }
+    public String getDifference1() { return difference1.toString(); }
+    public String getDifference2() { return difference2.toString(); }
 
     public boolean Compare(String Object1, String Object2) {
         boolean result = true;
