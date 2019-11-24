@@ -105,5 +105,5 @@ public class JSONTransformerApplication {
 //            e.printStackTrace();
 //        }
 //        logger.debug("Similar: " + comparator.Compare(unminifiedJSON, tri));
-//    }
+    }
 }
