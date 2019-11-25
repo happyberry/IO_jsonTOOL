@@ -15,12 +15,12 @@ public class JSONTransformerController {
 
     @GetMapping("/minify")
     public String minify(){
-        String x = min.minify(arr.getAll());
+        String x = min.minify(arr.getText());
         return x;
     }
     @GetMapping("/unminify")
     public String unminify(){
-        String x = unm.unminify(arr.getAll());
+        String x = unm.unminify(arr.getText());
         return x;
     }
     @PostMapping("/dodaj")

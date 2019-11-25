@@ -26,6 +26,17 @@ public class JSONTransformer {
         }
     }
     public JSONArray getAll(){ return jsonArray; }
-    public String wypisz(){ return jsonText;}
+    public String getText(){ return jsonText; }
+    public String wypisz(){ return jsonText; }
+    public static JSONArray transform(String text){
+        JSONArray arr = null;
+        try {
+            arr = new JSONArray("["+text+"]");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+            return arr;
+        }
+    }
 
 }

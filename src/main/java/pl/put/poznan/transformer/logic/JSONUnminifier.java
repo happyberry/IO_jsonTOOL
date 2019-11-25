@@ -4,7 +4,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class JSONUnminifier {
-    public String unminify(JSONArray array) {
+    public String unminify(String text) {
+        return doUnminify(JSONTransformer.transform(text));
+    }
+
+    private String doUnminify(JSONArray array) {
         String unminified = null;
         try {
             unminified = array.toString(4);
