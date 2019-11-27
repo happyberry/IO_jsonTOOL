@@ -3,7 +3,12 @@ package pl.put.poznan.transformer.logic;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class JSONUnminifier {
+public class JSONUnminified extends Decorator {
+
+    public JSONUnminified(Component component) {
+        super(component);
+    }
+
     public String unminify(String text) {
         return doUnminify(JSONTransformer.transform(text));
     }
@@ -17,5 +22,15 @@ public class JSONUnminifier {
         }
         unminified = unminified.substring(1, unminified.length() - 1);
         return unminified;
+    }
+
+    @Override
+    public void Operation() {
+        newDecoration = unminify(component.getJsonString());
+    }
+
+    @Override
+    public String Compare(Component component) {
+        return null;
     }
 }

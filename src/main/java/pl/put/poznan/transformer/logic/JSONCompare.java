@@ -6,18 +6,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class JSONCompare {
+public class JSONCompare  extends Decorator{
     private Logger logger;
     private List<String> difference1;
     private List<String> difference2;
 
-    public JSONCompare(Logger logger) {
+    public JSONCompare(Component component,Logger logger) {
+        super(component);
         this.logger = logger;
     }
     public String getDifference1() { return difference1.toString(); }
     public String getDifference2() { return difference2.toString(); }
 
-    public boolean Compare(String Object1, String Object2) {
+    public boolean compare(String Object1, String Object2) {
         boolean result = true;
         difference1 = new ArrayList<String>();
         difference2 = new ArrayList<String>();
@@ -59,4 +60,16 @@ public class JSONCompare {
         System.out.println(difference2);
     }
 
+    @Override
+    public void Operation() {
+
+    }
+
+    @Override
+    public String Compare(Component component) {
+        boolean res = compare(this.newDecoration, component.getJsonString());
+        String wyn = res ? "True" : "False";
+        String wynik = wyn +"\n"+ getDifference1() +"\n"+ getDifference2() + "\n";
+        return wynik;
+    }
 }

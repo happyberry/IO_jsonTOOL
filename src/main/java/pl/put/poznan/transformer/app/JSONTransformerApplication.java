@@ -1,19 +1,7 @@
 package pl.put.poznan.transformer.app;
 
-import java.io.FileWriter;
-import java.io.IOException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import pl.put.poznan.transformer.logic.JSONMinifier;
-import pl.put.poznan.transformer.logic.JSONTransformer;
-import pl.put.poznan.transformer.logic.JSONUnminifier;
-import pl.put.poznan.transformer.logic.JSONCompare;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 
 @SpringBootApplication(scanBasePackages = {"pl.put.poznan.transformer.rest"})
