@@ -21,14 +21,14 @@ public class JSONCompare  extends Decorator{
         difference1 = new ArrayList<String>();
         difference2 = new ArrayList<String>();
 
-        if(Object1.isEmpty() && Object2.isEmpty()) {
+        if(Object1 == null && Object2 == null) {
             return true;
         }
-        if(Object1.isEmpty()){
+        if(Object1 == null){
             difference2 = Arrays.asList(Object2.split("\n"));
             return false;
         }
-        if(Object2.isEmpty()){
+        if(Object2 == null){
             difference1 = Arrays.asList(Object1.split("\n"));
             return false;
         }
@@ -70,8 +70,8 @@ public class JSONCompare  extends Decorator{
     @Override
     public String Compare(Component component) {
         boolean res = compare(this.newDecoration, component.getJsonString());
-        String wyn = res ? "True" : "False";
-        String wynik = wyn +"\n"+ getDifference1() +"\n"+ getDifference2() + "\n";
+        String wyn = res ? "Identical" : "Different";
+        String wynik = res ? wyn : wyn +"\nFile1:\n"+ getDifference1() +"\nFile2:\ngit "+ getDifference2() + "\n";
         return wynik;
     }
 }
