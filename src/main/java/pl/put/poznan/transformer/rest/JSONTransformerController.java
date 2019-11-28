@@ -13,7 +13,7 @@ public class JSONTransformerController {
     private Component component = null;
 
     @PostMapping("/dodaj")
-    public void add(@RequestBody String array) {
+    public void add(@RequestBody(required = false) String array) {
         component = new JSONComponent(array);
     }
 
@@ -45,7 +45,7 @@ public class JSONTransformerController {
     }
 
     @PutMapping("/compare")
-    public String compare(@RequestBody String ob2) {
+    public String compare(@RequestBody(required = false) String ob2) {
         if (component != null) {
             component = new JSONCompare(component, logger);
             return component.Compare(new JSONComponent(ob2));
