@@ -8,7 +8,7 @@ import org.slf4j.Logger;
  * This is just an example to show that the logic should be outside the REST service.
  */
 public class JSONTransformer {
-    private Logger logger;
+    private static Logger logger;
     private JSONArray jsonArray;
     private String jsonText;
 
@@ -16,7 +16,7 @@ public class JSONTransformer {
         this.logger = logger;
     }
 
-    public void add(String text){
+    /*public void add(String text){
         this.jsonText = text;
         try {
             jsonArray = new JSONArray("["+text+"]");
@@ -24,7 +24,8 @@ public class JSONTransformer {
             e.printStackTrace();
             logger.debug("jej");
         }
-    }
+    }*/
+
     public JSONArray getAll(){ return jsonArray; }
     public String getText(){ return jsonText; }
     public String wypisz(){ return jsonText; }
@@ -34,6 +35,7 @@ public class JSONTransformer {
             arr = new JSONArray("["+text+"]");
         } catch (JSONException e) {
             e.printStackTrace();
+            logger.debug("xd");
         } finally {
             return arr;
         }
