@@ -10,19 +10,15 @@ public class JSONUnminified extends Decorator {
     }
 
     public String unminify(String text) throws JSONException {
-        return doUnminify(JSONTransformer.transform(text));
-    }
-
-    private String doUnminify(JSONArray array) {
+        JSONArray array = JSONTransformer.transform(text);
         String unminified = null;
-        try {
-            unminified = array.toString(4);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+        unminified = array.toString(4);
+
         unminified = unminified.substring(1, unminified.length() - 1);
         return unminified;
     }
+
 
     @Override
     public void Operation() throws JSONException {
