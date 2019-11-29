@@ -1,6 +1,7 @@
 package pl.put.poznan.transformer.logic;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 public class JSONMinified extends Decorator {
 
@@ -8,7 +9,7 @@ public class JSONMinified extends Decorator {
         super(componentDecorating);
     }
 
-    public String minify(String jsonString) {
+    public String minify(String jsonString) throws JSONException {
         return doMinify(JSONTransformer.transform(jsonString));
     }
 
@@ -19,7 +20,7 @@ public class JSONMinified extends Decorator {
     }
 
     @Override
-    public void Operation() {
+    public void Operation() throws JSONException {
         newDecoration = minify(component.getJsonString());
     }
 

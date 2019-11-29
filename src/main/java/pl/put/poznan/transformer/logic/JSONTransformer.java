@@ -9,36 +9,13 @@ import org.slf4j.Logger;
  */
 public class JSONTransformer {
     private static Logger logger;
-    private JSONArray jsonArray;
-    private String jsonText;
 
     public JSONTransformer(Logger logger) {
         this.logger = logger;
     }
 
-    /*public void add(String text){
-        this.jsonText = text;
-        try {
-            jsonArray = new JSONArray("["+text+"]");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            logger.debug("jej");
-        }
-    }*/
-
-    public JSONArray getAll(){ return jsonArray; }
-    public String getText(){ return jsonText; }
-    public String wypisz(){ return jsonText; }
-    public static JSONArray transform(String text){
-        JSONArray arr = null;
-        try {
-            arr = new JSONArray("["+text+"]");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            logger.debug("xd");
-        } finally {
-            return arr;
-        }
+    public static JSONArray transform(String text) throws JSONException {
+        return new JSONArray("[" + text + "]");
     }
 
 }

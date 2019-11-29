@@ -9,7 +9,7 @@ public class JSONUnminified extends Decorator {
         super(component);
     }
 
-    public String unminify(String text) {
+    public String unminify(String text) throws JSONException {
         return doUnminify(JSONTransformer.transform(text));
     }
 
@@ -25,7 +25,7 @@ public class JSONUnminified extends Decorator {
     }
 
     @Override
-    public void Operation() {
+    public void Operation() throws JSONException {
         newDecoration = unminify(component.getJsonString());
     }
 

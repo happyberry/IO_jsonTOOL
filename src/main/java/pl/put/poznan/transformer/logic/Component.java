@@ -1,8 +1,10 @@
 package pl.put.poznan.transformer.logic;
 
+import org.json.JSONException;
+
 public interface Component {
 
-    void Operation();
+    void Operation() throws JSONException;
 
     String getJsonString();
 
