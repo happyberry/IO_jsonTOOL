@@ -71,7 +71,7 @@ public class JSONCompare  extends Decorator{
     public String Compare(Component component) {
         boolean res = compare(this.newDecoration, component.getJsonString());
         String wyn = res ? "Identical" : "Different";
-        String wynik = res ? wyn : wyn +"\nFile1:\n"+ getDifference1() +"\nFile2:\ngit "+ getDifference2() + "\n";
+        String wynik = res ? wyn : wyn +"\nFile1:\n"+ getDifference1() +"\nFile2:\n"+ getDifference2() + "\n";
         return wynik;
     }
 }
