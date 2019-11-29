@@ -6,17 +6,45 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.transformer.logic.*;
 
+/**
+ * REST API controller class, includes implementation of all HTTP requests which are supported by API.
+ *
+ * @author kejkejovsky
+ * @version 1.0
+ */
+
 @RestController
 public class JSONTransformerController {
 
+    /**
+     * Logger object used for logging purposes on DEBUG and INFO level.
+     */
     private static final Logger logger = LoggerFactory.getLogger(JSONTransformerController.class);
 
+    /**
+     * Container for object which will be used in response to request. For example in minify method,
+     * this field will contain reference to object of JSONMinifed class, which has methods needed
+     * to minify JSON.
+     */
     private Component component = null;
+
+    /**
+     * Add method, allows for adding a JSON/text for further actions.
+     *
+     * @param array Request body - String containing JSON or plain text which will be converted in other methods.
+     */
 
     @PostMapping("/dodaj")
     public void add(@RequestBody(required = false) String array) {
         component = new JSONComponent(array);
     }
+
+    /**
+     * Method allows API user to see JSON/text which is uploaded to API at the moment.
+     *
+     * @return If JSON/text is uploaded to API at the moment, method returns String containing it.
+     * Otherwise method returns String with information that user should upload JSON/text first.
+     */
 
     @GetMapping("/getAll")
     public String getAll() {
@@ -24,6 +52,13 @@ public class JSONTransformerController {
             return component.getJsonString();
         return "Najpierw dodaj JSONa\n";
     }
+
+    /**
+     * Method allows API user to minify JSON which he uploaded earlier using POST request.
+     *
+     * @return If JSON is uploaded to API at the moment, method returns String containing minified form of it.
+     * If there is text or nothing uploaded, method returns String with information that user should upload JSON first.
+     */
 
     @GetMapping("/minify")
     public String minify() {
@@ -41,6 +76,13 @@ public class JSONTransformerController {
         return "Najpierw dodaj JSONa\n";
     }
 
+    /**
+     * Method allows API user to deminify JSON which he uploaded earlier using POST request.
+     *
+     * @return If JSON is uploaded to API at the moment, method returns String with deminified form of uploaded JSON.
+     * If there is text or nothing uploaded, method returns String with information that user should upload JSON first.
+     */
+
     @GetMapping("/unminify")
     public String unminify() {
         if (component != null) {
@@ -56,6 +98,15 @@ public class JSONTransformerController {
         }
         return "Najpierw dodaj JSONa\n";
     }
+
+    /**
+     * Method allows API user to see differences between uploaded text with POST request and
+     * text he uploads in this PUT request.
+     *
+     * @param ob2 String with text which will be compared with text uploaded in PUT request.
+     * @return If JSON/text is uploaded to API at the moment, method returns String containing list of lines with differences between texts.
+     * Otherwise method returns String with information that user should upload JSON/text first.
+     */
 
     @PutMapping("/compare")
     public String compare(@RequestBody(required = false) String ob2) {
