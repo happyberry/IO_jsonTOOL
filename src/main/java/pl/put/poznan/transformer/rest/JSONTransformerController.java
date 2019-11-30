@@ -37,6 +37,8 @@ public class JSONTransformerController {
     @PostMapping("/dodaj")
     public void add(@RequestBody(required = false) String array) {
         component = new JSONComponent(array);
+        logger.debug("Created JSONComponent object");
+        logger.info("Uploaded new JSON/txt");
     }
 
     /**
@@ -48,8 +50,11 @@ public class JSONTransformerController {
 
     @GetMapping("/getAll")
     public String getAll() {
-        if (component != null)
+        if (component != null) {
+            logger.debug("Showing uploaded JSON/txt");
             return component.getJsonString();
+        }
+        logger.debug("Attempting to print before uploading");
         return "Najpierw dodaj JSONa\n";
     }
 
@@ -62,6 +67,7 @@ public class JSONTransformerController {
 
     @GetMapping("/minify")
     public String minify() {
+        logger.debug("Starting minification of uploaded JSON/txt");
         if (component != null) {
             component = new JSONMinified(component);
             try {
@@ -71,8 +77,10 @@ public class JSONTransformerController {
                 component = null;
                 return "Zły format JSONa, dodaj nowy JSON\n";
             }
+            logger.debug("Minified successfully");
             return component.getJsonString();
         }
+        logger.debug("Attempting to minify before uploading");
         return "Najpierw dodaj JSONa\n";
     }
 
@@ -85,6 +93,7 @@ public class JSONTransformerController {
 
     @GetMapping("/unminify")
     public String unminify() {
+        logger.debug("Starting deminification of uploaded JSON/txt");
         if (component != null) {
             component = new JSONUnminified(component);
             try {
@@ -94,8 +103,10 @@ public class JSONTransformerController {
                 component = null;
                 return "Zły format JSONa, dodaj nowy JSON\n";
             }
+            logger.debug("Unminified successfully");
             return component.getJsonString();
         }
+        logger.debug("Attempting to unminify before uploading");
         return "Najpierw dodaj JSONa\n";
     }
 
@@ -110,10 +121,13 @@ public class JSONTransformerController {
 
     @PutMapping("/compare")
     public String compare(@RequestBody(required = false) String ob2) {
+        logger.debug("Starting comparison");
         if (component != null) {
             component = new JSONCompare(component, logger);
+            logger.debug("Compared successfully");
             return component.Compare(new JSONComponent(ob2));
         }
+        logger.debug("Attempting to compare before uploading");
         return "Najpierw dodaj JSONa\n";
     }
 }
