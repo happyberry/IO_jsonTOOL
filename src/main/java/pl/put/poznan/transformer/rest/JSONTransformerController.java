@@ -24,16 +24,12 @@ public class JSONTransformerController {
      */
     private static final Logger logger = LoggerFactory.getLogger(JSONTransformerController.class);
 
-    private static FileStorageService fileStorageService = new FileStorageService();
-
     /**
      * Container for object which will be used in response to request. For example in minify method,
      * this field will contain reference to object of JSONMinifed class, which has methods needed
      * to minify JSON.
      */
-    private Component component = null;
-
-    private static Decorator decorator = null;
+    private static Component component = new JSONComponent();
 
     /**
      * Method allows API user to minify JSON which he uploaded earlier using POST request.
@@ -47,30 +43,26 @@ public class JSONTransformerController {
     public String minify(@RequestParam("file") MultipartFile file) {
 
 
-        String str = null;
+        String str;
         try {
-            str = fileStorageService.storeFile(file);
+            str = FileStorageService.storeFile(file);
         } catch (FileStorageException e) {
             return e.getMessage();
         }
 
-        component = new JSONMinified(new JSONComponent(str));
+        String result;
         logger.debug("Starting minification of uploaded JSON/txt");
-        if (component != null) {
-            component = new JSONMinified(component);
-            try {
-                component.Operation();
-            } catch (JSONException e) {
-                logger.error(e.getMessage());
-                component = null;
-                return "Zły format JSONa, dodaj nowy JSON\n";
-            }
-            logger.debug("Minified successfully");
-            return component.getJsonString();
-        }
-        logger.debug("Attempting to minify before uploading");
-        return "Najpierw dodaj JSONa\n";
 
+         component = new JSONMinified(component);
+         try {
+             result = component.operation(str);
+             logger.debug("Minified successfully");
+             return result;
+         } catch (JSONException e) {
+             logger.error(e.getMessage());
+             component = null;
+             return "Wrong JSON structure\n";
+         }
 
     }
 
@@ -84,29 +76,30 @@ public class JSONTransformerController {
 
     @PostMapping("/unminify")
     public String unminify(@RequestParam("file") MultipartFile file) {
-        String str = null;
+
+
+        String str;
         try {
-            str = fileStorageService.storeFile(file);
+            str = FileStorageService.storeFile(file);
         } catch (FileStorageException e) {
             return e.getMessage();
         }
 
-        component = new JSONComponent(str);
+        String result;
         logger.debug("Starting deminification of uploaded JSON/txt");
-        if (component != null) {
-            component = new JSONUnminified(component);
-            try {
-                component.Operation();
-            } catch (JSONException e) {
-                logger.error(e.getMessage());
-                component = null;
-                return "Zły format JSONa, dodaj nowy JSON\n";
-            }
+
+        component = new JSONUnminified(component);
+        component = new JSONUnminified(component);
+        try {
+            result = component.operation(str);
             logger.debug("Unminified successfully");
-            return component.getJsonString();
+            return result;
+        } catch (JSONException e) {
+            logger.error(e.getMessage());
+            component = null;
+            return "Wrong JSON structure\n";
         }
-        logger.debug("Attempting to unminify before uploading");
-        return "Najpierw dodaj JSONa\n";
+
     }
 
     /**
@@ -120,31 +113,27 @@ public class JSONTransformerController {
 
     @PostMapping("/compare")
     public String compare(@RequestParam("file") MultipartFile[] files) {
-        if (files.length != 2) return "Zla ilosc plikow\n";
+        if (files.length != 2) return "Wrong quantity of files\n";
 
-        String str1 = null;
-        String str2 = null;
+        String str1;
+        String str2;
         try {
-            str1 = fileStorageService.storeFile(files[0]);
+            str1 = FileStorageService.storeFile(files[0]);
         } catch (FileStorageException e) {
             return e.getMessage();
         }
         try {
-            str2 = fileStorageService.storeFile(files[1]);
+            str2 = FileStorageService.storeFile(files[1]);
         } catch (FileStorageException e) {
             return e.getMessage();
         }
 
-        component = new JSONComponent(str1);
+        component = new JSONCompare(component, logger);
 
         logger.debug("Starting comparison");
-        if (component != null) {
-            component = new JSONCompare(component, logger);
-            logger.debug("Compared successfully");
-            return component.Compare(new JSONComponent(str2));
-        }
-        logger.debug("Attempting to compare before uploading");
-        return "Najpierw dodaj JSONa\n";
+        logger.debug("Compared successfully");
+        return component.compare(str1, str2);
+
     }
 
 

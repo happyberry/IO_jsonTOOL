@@ -42,21 +42,24 @@ public class JSONUnminified extends Decorator {
     /**
      * Method derived from Component interface, wrapper for minify method.
      *
+     * @param jsonString String containing data in JSON format
      * @throws JSONException Exception thrown if String doesn't contain correct JSON.
      */
     @Override
-    public void Operation() throws JSONException {
-        newDecoration = unminify(component.getJsonString());
+    public String operation(String jsonString) throws JSONException {
+        return unminify(jsonString);
     }
 
     /**
      * Stub method derived from Component interface, not needed in this class, so it just returns null.
      *
-     * @param component Component passed to method just to make it compatible with interface which is implemented by
+     * @param firstString String passed to method just to make it compatible with interface which is implemented by
+     * this class.
+     * @param secondString String passed to method just to make it compatible with interface which is implemented by
      * this class.
      */
     @Override
-    public String Compare(Component component) {
+    public String compare(String firstString, String secondString) {
         return null;
     }
 }

@@ -2,24 +2,17 @@ package pl.put.poznan.transformer.logic;
 
 public class JSONComponent implements Component {
 
-    private String jsonString;
 
-    public JSONComponent(String string) {
-        jsonString = string;
+    public JSONComponent() {
     }
 
     @Override
-    public void Operation() {
-
+    public String operation(String jsonString) {
+        return null;
     }
 
     @Override
-    public String getJsonString() {
-        return jsonString;
-    }
-
-    @Override
-    public String Compare(Component component) {
+    public String compare(String firstString, String secondString) {
         return null;
     }
 }
