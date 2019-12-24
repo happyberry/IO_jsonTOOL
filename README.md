@@ -4,15 +4,11 @@ Projekt na przedmiot Inżynieria Oprogramowania. Aplikacja dla programistów, kt
 
 URIS (prefix http://localhost:8080):
 
-/dodaj - POST - dodawanie JSONa
+/minify - POST - minifikacja JSONa wrzuconego jako ciało zapytania
 
-/getAll - GET - wyświetla wrzuconego JSONa
+/unminifiy - POST - deminifikacja JSONa wrzuconego jako ciało zapytania
 
-/minify - GET - minifikacja
-
-/unminifiy - GET - deminifikacja
-
-/compare - PUT - porównywanie wrzuconego JSONa z tekstem dodanym w ciele zapytania
+/compare - POST - porównywanie dwóch plików tekstowych wrzuconych jako ciało zapytania
 
 UML:
 
