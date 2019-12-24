@@ -3,7 +3,10 @@ package pl.put.poznan.transformer.rest;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import pl.put.poznan.transformer.logic.*;
 
 /**
@@ -26,110 +29,114 @@ public class JSONTransformerController {
      * this field will contain reference to object of JSONMinifed class, which has methods needed
      * to minify JSON.
      */
-    private Component component = null;
-
-    /**
-     * Add method, allows for adding a JSON/text for further actions.
-     *
-     * @param array Request body - String containing JSON or plain text which will be converted in other methods.
-     */
-
-    @PostMapping("/dodaj")
-    public void add(@RequestBody(required = false) String array) {
-        component = new JSONComponent(array);
-        logger.debug("Created JSONComponent object");
-        logger.info("Uploaded new JSON/txt");
-    }
-
-    /**
-     * Method allows API user to see JSON/text which is uploaded to API at the moment.
-     *
-     * @return If JSON/text is uploaded to API at the moment, method returns String containing it.
-     * Otherwise method returns String with information that user should upload JSON/text first.
-     */
-
-    @GetMapping("/getAll")
-    public String getAll() {
-        if (component != null) {
-            logger.debug("Showing uploaded JSON/txt");
-            return component.getJsonString();
-        }
-        logger.debug("Attempting to print before uploading");
-        return "Najpierw dodaj JSONa\n";
-    }
+    private static Component component = new JSONComponent();
 
     /**
      * Method allows API user to minify JSON which he uploaded earlier using POST request.
      *
+     * @param file MultipleFile containing information abut sent file.
      * @return If JSON is uploaded to API at the moment, method returns String containing minified form of it.
      * If there is text or nothing uploaded, method returns String with information that user should upload JSON first.
      */
 
-    @GetMapping("/minify")
-    public String minify() {
-        logger.debug("Starting minification of uploaded JSON/txt");
-        if (component != null) {
-            component = new JSONMinified(component);
-            try {
-                component.Operation();
-            } catch (JSONException e) {
-                logger.error(e.getMessage());
-                component = null;
-                return "Zły format JSONa, dodaj nowy JSON\n";
-            }
-            logger.debug("Minified successfully");
-            return component.getJsonString();
+    @PostMapping("/minify")
+    public String minify(@RequestParam("file") MultipartFile file) {
+
+
+        String str;
+        try {
+            str = FileStorageService.storeFile(file);
+        } catch (FileStorageException e) {
+            return e.getMessage();
         }
-        logger.debug("Attempting to minify before uploading");
-        return "Najpierw dodaj JSONa\n";
+
+        String result;
+        logger.debug("Starting minification of uploaded JSON/txt");
+
+         component = new JSONMinified(component);
+         try {
+             result = component.operation(str);
+             logger.debug("Minified successfully");
+             return result;
+         } catch (JSONException e) {
+             logger.error(e.getMessage());
+             component = null;
+             return "Wrong JSON structure\n";
+         }
+
     }
 
     /**
      * Method allows API user to deminify JSON which he uploaded earlier using POST request.
      *
+     * @param file MultipleFile containing information abut sent file.
      * @return If JSON is uploaded to API at the moment, method returns String with deminified form of uploaded JSON.
      * If there is text or nothing uploaded, method returns String with information that user should upload JSON first.
      */
 
-    @GetMapping("/unminify")
-    public String unminify() {
-        logger.debug("Starting deminification of uploaded JSON/txt");
-        if (component != null) {
-            component = new JSONUnminified(component);
-            try {
-                component.Operation();
-            } catch (JSONException e) {
-                logger.error(e.getMessage());
-                component = null;
-                return "Zły format JSONa, dodaj nowy JSON\n";
-            }
-            logger.debug("Unminified successfully");
-            return component.getJsonString();
+    @PostMapping("/unminify")
+    public String unminify(@RequestParam("file") MultipartFile file) {
+
+
+        String str;
+        try {
+            str = FileStorageService.storeFile(file);
+        } catch (FileStorageException e) {
+            return e.getMessage();
         }
-        logger.debug("Attempting to unminify before uploading");
-        return "Najpierw dodaj JSONa\n";
+
+        String result;
+        logger.debug("Starting deminification of uploaded JSON/txt");
+
+        component = new JSONUnminified(component);
+        component = new JSONUnminified(component);
+        try {
+            result = component.operation(str);
+            logger.debug("Unminified successfully");
+            return result;
+        } catch (JSONException e) {
+            logger.error(e.getMessage());
+            component = null;
+            return "Wrong JSON structure\n";
+        }
+
     }
 
     /**
      * Method allows API user to see differences between uploaded text with POST request and
      * text he uploads in this PUT request.
      *
-     * @param ob2 String with text which will be compared with text uploaded in PUT request.
+     * @param files MultipleFile table containing information about two sent files.
      * @return If JSON/text is uploaded to API at the moment, method returns String containing list of lines with differences between texts.
      * Otherwise method returns String with information that user should upload JSON/text first.
      */
 
-    @PutMapping("/compare")
-    public String compare(@RequestBody(required = false) String ob2) {
-        logger.debug("Starting comparison");
-        if (component != null) {
-            component = new JSONCompare(component, logger);
-            logger.debug("Compared successfully");
-            return component.Compare(new JSONComponent(ob2));
+    @PostMapping("/compare")
+    public String compare(@RequestParam("file") MultipartFile[] files) {
+        if (files.length != 2) return "Wrong quantity of files\n";
+
+        String str1;
+        String str2;
+        try {
+            str1 = FileStorageService.storeFile(files[0]);
+        } catch (FileStorageException e) {
+            return e.getMessage();
         }
-        logger.debug("Attempting to compare before uploading");
-        return "Najpierw dodaj JSONa\n";
+        try {
+            str2 = FileStorageService.storeFile(files[1]);
+        } catch (FileStorageException e) {
+            return e.getMessage();
+        }
+
+        component = new JSONCompare(component, logger);
+
+        logger.debug("Starting comparison");
+        logger.debug("Compared successfully");
+        return component.compare(str1, str2);
+
     }
+
+
 }
 
 

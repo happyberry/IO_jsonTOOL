@@ -14,6 +14,7 @@ public class JSONMinified extends Decorator {
 
     /**
      * Constructor, calls constructor from component passed in constructor's argument.
+     *
      * @param componentDecorating Component from which constructor will be called inside this constructor.
      */
     public JSONMinified(Component componentDecorating) {
@@ -37,21 +38,22 @@ public class JSONMinified extends Decorator {
     /**
      * Method derived from Component interface, wrapper for minify method.
      *
+     * @param jsonString String containing data in JSON format
      * @throws JSONException Exception thrown if String doesn't contain correct JSON.
      */
     @Override
-    public void Operation() throws JSONException {
-        newDecoration = minify(component.getJsonString());
+    public String operation(String jsonString) throws JSONException {
+        return minify(jsonString);
     }
 
     /**
      * Stub method derived from Component interface, not needed in this class, so it just returns null.
      *
-     * @param component Component passed to method just to make it compatible with interface which is implemented by
-     * this class.
+     * @param firstString  String to compare
+     * @param secondString String to compare
      */
     @Override
-    public String Compare(Component component) {
+    public String compare(String firstString, String secondString) {
         return null;
     }
 }

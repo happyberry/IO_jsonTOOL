@@ -4,9 +4,7 @@ import org.json.JSONException;
 
 public interface Component {
 
-    void Operation() throws JSONException;
+    String operation(String jsonString) throws JSONException;
 
-    String getJsonString();
-
-    String Compare(Component component);
+    String compare(String firstString, String secondString);
 }
