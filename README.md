@@ -6,9 +6,11 @@ URIS (prefix http://localhost:8080):
 
 /minify - POST - minifikacja JSONa wrzuconego jako ciało zapytania
 
-/unminifiy - POST - deminifikacja JSONa wrzuconego jako ciało zapytania
+/unminify - POST - deminifikacja JSONa wrzuconego jako ciało zapytania
 
 /compare - POST - porównywanie dwóch plików tekstowych wrzuconych jako ciało zapytania
+
+/checkSizeDifference - POST - szacowanie zysku z minifikacji JSONa wrzuconego jako ciało zapytania
 
 UML:
 
