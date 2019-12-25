@@ -136,6 +136,29 @@ public class JSONTransformerController {
 
     }
 
+    @PostMapping("/checkSizeDifference")
+    public String checkSizeAfterMinification(@RequestParam("file") MultipartFile file) {
+        String str;
+        try {
+            str = FileStorageService.storeFile(file);
+        } catch (FileStorageException e) {
+            return e.getMessage();
+        }
+
+        String result;
+        logger.debug("Starting counting file size difference after deminification");
+
+        component = new JSONAnalyzer(component);
+        try {
+            result = component.operation(str);
+            logger.debug("Counted successfully");
+            return result;
+        } catch (JSONException e) {
+            logger.error(e.getMessage());
+            component = null;
+            return "Wrong JSON structure\n";
+        }
+    }
 
 }
 
