@@ -6,5 +6,6 @@ public interface Component {
 
     String operation(String jsonString) throws JSONException;
 
-    String compare(String firstString, String secondString);
+    String operation(String firstString, String secondString) throws JSONException;
 }
+
