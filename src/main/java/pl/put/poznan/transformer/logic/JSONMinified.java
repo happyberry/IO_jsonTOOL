@@ -51,6 +51,7 @@ public class JSONMinified extends Decorator {
      *
      * @param firstString  String to compare
      * @param secondString String to compare
+     * @return String with information about the differences or that given textfiles are identical.
      */
     @Override
     public String operation(String firstString, String secondString) {

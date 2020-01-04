@@ -27,17 +27,17 @@ public class JSONTransformerController {
 
     /**
      * Container for object which will be used in response to request. For example in minify method,
-     * this field will contain reference to object of JSONMinifed class, which has methods needed
+     * this field will contain reference to object of JSONMinified class, which has methods needed
      * to minify JSON.
      */
     private static Component component = new JSONComponent();
 
     /**
-     * Method allows API user to minify JSON which he uploaded earlier using POST request.
+     * Method allows API user to minify JSON which he uploaded as request's argument.
      *
-     * @param file MultipleFile containing information abut sent file.
-     * @return If JSON is uploaded to API at the moment, method returns String containing minified form of it.
-     * If there is text or nothing uploaded, method returns String with information that user should upload JSON first.
+     * @param file MultipleFile containing information about sent file.
+     * @return Method returns String containing minified form of it.
+     * If file isn't correct JSON, method returns string with warning message that uploaded JSON is not correct.
      */
 
     @PostMapping("/minify")
@@ -68,11 +68,11 @@ public class JSONTransformerController {
     }
 
     /**
-     * Method allows API user to deminify JSON which he uploaded earlier using POST request.
+     * Method allows API user to deminify JSON uploaded as request's argument.
      *
-     * @param file MultipleFile containing information abut sent file.
-     * @return If JSON is uploaded to API at the moment, method returns String with deminified form of uploaded JSON.
-     * If there is text or nothing uploaded, method returns String with information that user should upload JSON first.
+     * @param file MultipartFile object containing information about sent file.
+     * @return Method returns String with deminified form of uploaded JSON.
+     * If file isn't correct JSON, method returns string with warning message that uploaded JSON is not correct.
      */
 
     @PostMapping("/unminify")
@@ -104,12 +104,10 @@ public class JSONTransformerController {
     }
 
     /**
-     * Method allows API user to see differences between uploaded text with POST request and
-     * text he uploads in this PUT request.
+     * Method allows API user to see differences between two text files uploaded as arguments of this request.
      *
-     * @param files MultipleFile table containing information about two sent files.
-     * @return If JSON/text is uploaded to API at the moment, method returns String containing list of lines with differences between texts.
-     * Otherwise method returns String with information that user should upload JSON/text first.
+     * @param files MultipleFile array with two sent files.
+     * @return String containing information about differences in both files (or lack of them).
      */
 
     @PostMapping("/compare")
@@ -129,7 +127,7 @@ public class JSONTransformerController {
             return e.getMessage();
         }
 
-        component = new JSONCompare(component, logger);
+        component = new JSONCompare(component);
 
         logger.debug("Starting comparison");
         logger.debug("Compared successfully");
@@ -141,6 +139,12 @@ public class JSONTransformerController {
         return null;
     }
 
+    /**
+     * Method allows API user to see what is file size difference between uploaded JSON file and minified version of it.
+     *
+     * @param file JSON file which will be analyzed.
+     * @return String containing information about size difference between JSON file and its minified version.
+     */
     @PostMapping("/checkSizeDifference")
     public String checkSizeAfterMinification(@RequestParam("file") MultipartFile file) {
         String str;
@@ -165,6 +169,13 @@ public class JSONTransformerController {
         }
     }
 
+    /**
+     * Method allows API user to remove from JSON uploaded in first request's parameter properties with keys passed in second request's parameter.
+     *
+     * @param file JSON file which will be analyzed.
+     * @param input String containing comma-delimited keys of properties, which user wants to remove.
+     * @return String containing JSON content with removed properties which are identified by keys given in second request's parameter.
+     */
     @PostMapping("/reduce")
     public String reduce(@RequestParam("file") MultipartFile file, @RequestParam("text") String input) {
 
