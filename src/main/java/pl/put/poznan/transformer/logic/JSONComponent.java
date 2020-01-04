@@ -4,6 +4,7 @@ public class JSONComponent implements Component {
 
 
     public JSONComponent() {
+
     }
 
     @Override
@@ -12,7 +13,7 @@ public class JSONComponent implements Component {
     }
 
     @Override
-    public String compare(String firstString, String secondString) {
+    public String operation(String firstString, String secondString) {
         return null;
     }
 }

@@ -51,7 +51,7 @@ public class JSONAnalyzer extends Decorator {
      * @param secondString String to compare
      */
     @Override
-    public String compare(String firstString, String secondString) {
+    public String operation(String firstString, String secondString) {
         return null;
     }
 }

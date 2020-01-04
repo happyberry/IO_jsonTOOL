@@ -74,7 +74,7 @@ public class JSONCompare extends Decorator {
     }
 
     @Override
-    public String compare(String firstString, String secondString) {
+    public String operation(String firstString, String secondString) {
         boolean res = differences(firstString, secondString);
         String wyn = res ? "Identical" : "Different";
         String wynik = res ? wyn : wyn + "\nFile1:\n" + getDifference1() + "\nFile2:\n" + getDifference2() + "\n";

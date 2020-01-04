@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -132,8 +133,12 @@ public class JSONTransformerController {
 
         logger.debug("Starting comparison");
         logger.debug("Compared successfully");
-        return component.compare(str1, str2);
-
+        try {
+            return component.operation(str1, str2);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @PostMapping("/checkSizeDifference")
@@ -159,6 +164,32 @@ public class JSONTransformerController {
             return "Wrong JSON structure\n";
         }
     }
+
+    @PostMapping("/reduce")
+    public String reduce(@RequestParam("file") MultipartFile file, @RequestParam("text") String input) {
+
+        String str;
+        try {
+            str = FileStorageService.storeFile(file);
+        } catch (FileStorageException e) {
+            return e.getMessage();
+        }
+
+        String result;
+
+        component = new JSONReduced(component);
+        try {
+            result = component.operation(str, input);
+            logger.debug("Reduced successfully");
+            return result;
+        } catch (JSONException e) {
+            logger.error(e.getMessage());
+            component = null;
+            return "Wrong JSON structure\n";
+        }
+
+    }
+
 
 }
 
