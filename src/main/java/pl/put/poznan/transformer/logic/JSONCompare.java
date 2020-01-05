@@ -13,7 +13,7 @@ import java.util.*;
 
 public class JSONCompare extends Decorator {
 
-    
+
     private List<String> difference1;
 
     private List<String> difference2;
