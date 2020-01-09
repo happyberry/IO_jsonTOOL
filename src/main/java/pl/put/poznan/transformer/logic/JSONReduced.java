@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * Class containing all the logic and methods needed to deminify JSONs.
+ * Class containing all the logic and methods needed to remove properties with given keys from the JSON file.
  *
  * @author Julia Tadej
  * @version 1.0
