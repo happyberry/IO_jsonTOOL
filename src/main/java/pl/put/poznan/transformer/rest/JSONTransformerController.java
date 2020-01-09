@@ -201,8 +201,34 @@ public class JSONTransformerController {
 
     }
 
+<<<<<<< HEAD
     public String compareTest(String str1, String str2, JSONCompare component) {
         return component.operation(str1, str2);
+=======
+    @PostMapping("/choose")
+    public String choose(@RequestParam("file") MultipartFile file, @RequestParam("text") String input) {
+
+        String str;
+        try {
+            str = FileStorageService.storeFile(file);
+        } catch (FileStorageException e) {
+            return e.getMessage();
+        }
+
+        String result;
+
+        component = new JSONChoose(component);
+        try {
+            result = component.operation(str, input);
+            logger.debug("Choosen successfully");
+            return result;
+        } catch (JSONException e) {
+            logger.error(e.getMessage());
+            component = null;
+            return "Wrong JSON structure\n";
+        }
+
+>>>>>>> b1ff26a58e1e1e458ec2f35eed84fb47fbf0f9b6
     }
 
 }
