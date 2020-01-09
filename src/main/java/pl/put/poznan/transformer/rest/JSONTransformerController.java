@@ -201,6 +201,30 @@ public class JSONTransformerController {
 
     }
 
+    @PostMapping("/choose")
+    public String choose(@RequestParam("file") MultipartFile file, @RequestParam("text") String input) {
+
+        String str;
+        try {
+            str = FileStorageService.storeFile(file);
+        } catch (FileStorageException e) {
+            return e.getMessage();
+        }
+
+        String result;
+
+        component = new JSONChoose(component);
+        try {
+            result = component.operation(str, input);
+            logger.debug("Choosen successfully");
+            return result;
+        } catch (JSONException e) {
+            logger.error(e.getMessage());
+            component = null;
+            return "Wrong JSON structure\n";
+        }
+
+    }
 
 }
 
