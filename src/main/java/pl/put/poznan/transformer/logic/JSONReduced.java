@@ -28,36 +28,15 @@ public class JSONReduced extends Decorator {
 
 
     private void reduceNode(JsonNode currentNode, String[] properties){
-        System.out.println(currentNode.getNodeType());
+        //System.out.println(currentNode.getNodeType());
         if (currentNode instanceof ObjectNode) {
             ((ObjectNode) currentNode).remove(Arrays.asList(properties));
-            System.out.println("object");
         }
         if(currentNode.isContainerNode()){
-            System.out.println("container");
             for (JsonNode child : currentNode) {
                 reduceNode(child, properties);
             }
         }
-        /*((ObjectNode)node).remove(Arrays.asList(properties));
-        for (JsonNode child : node) {
-            //System.out.println(child.get(0));
-            if (child.isContainerNode()) {
-                reduceNode(child, properties);
-            }
-        }
-        //
-        if (currentNode.isArray()) {
-            ArrayNode arrayNode = (ArrayNode) currentNode;
-            Iterator<JsonNode> node = arrayNode.elements();
-            while (node.hasNext()) {
-                reduceNode(node.next(), properties);
-            }
-        }
-        else{
-            ((ObjectNode)currentNode).remove(Arrays.asList(properties));
-        }*/
-
     }
 
     /**
@@ -73,6 +52,7 @@ public class JSONReduced extends Decorator {
 
         if (properties == null) properties = new String[]{};
         ObjectMapper mapper = new ObjectMapper();
+        String result = "";
         try {
             JsonNode jsonNode = mapper.readTree(jsonString);
             reduceNode(jsonNode, properties);
@@ -81,10 +61,9 @@ public class JSONReduced extends Decorator {
             e.printStackTrace();
         }
 
-        //System.out.println(array.length());
-        //System.out.println(array);
         JSONArray array = JSONTransformer.transform(jsonString);
-        return array.toString(4);
+        result = array.toString(4);
+        return result;
     }
 
     /**

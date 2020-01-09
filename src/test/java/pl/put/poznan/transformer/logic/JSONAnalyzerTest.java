@@ -43,6 +43,7 @@ public class JSONAnalyzerTest {
         String result = null;
         String json = "{\"Hello\": \"World\"\n\"name\": \"sun1\"\n}";
         result = anal.analyze(json);
+        fail();
     }
 
     @Test(expected = JSONException.class)
@@ -51,6 +52,7 @@ public class JSONAnalyzerTest {
         String result = null;
         String json = "\"Hello\": \"World\"\n\"name\": \"sun1\"\n}";
         result = anal.analyze(json);
+        fail();
     }
 
     @Test(expected = JSONException.class)
@@ -59,6 +61,7 @@ public class JSONAnalyzerTest {
         String result = null;
         String json = "{\"Hello\": \"World\"\n\"name\": \"sun1\"\n";
         result = anal.analyze(json);
+        fail();
     }
 
     @Test(expected = JSONException.class)
@@ -67,6 +70,7 @@ public class JSONAnalyzerTest {
         String result = null;
         String json = "{{\"Hello\": \"World\"\n\"name\": \"sun1\"\n}}";
         result = anal.analyze(json);
+        fail();
     }
 
     @Test(expected = JSONException.class)
@@ -75,5 +79,6 @@ public class JSONAnalyzerTest {
         String result = null;
         String json = "{\"Hello\": \"World\"\n\"name\": \"sun1\"\n}}";
         result = anal.analyze(json);
+        fail();
     }
 }
