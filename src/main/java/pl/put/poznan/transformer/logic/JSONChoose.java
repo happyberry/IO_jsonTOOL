@@ -18,7 +18,6 @@ public class JSONChoose extends Decorator {
     public JSONChoose(Component component) {super(component);}
 
     private void chooseNode(JsonNode currentNode, String[] properties) {
-        System.out.println(currentNode.getNodeType());
         if (currentNode instanceof ObjectNode) {
             Iterator<String> names = currentNode.fieldNames();
             List<String> delete = new ArrayList<String>();
@@ -27,16 +26,13 @@ public class JSONChoose extends Decorator {
 
                 if(!Arrays.asList(properties).contains(name)) {
                     delete.add(name);
-                    System.out.println(name + " delete");
                 }
             }
             if(!delete.isEmpty()) {
                 ((ObjectNode) currentNode).remove(delete);
             }
-            System.out.println("object");
         }
         if (currentNode.isContainerNode()) {
-            System.out.println("container");
             for (JsonNode child : currentNode) {
                 chooseNode(child, properties);
             }
@@ -65,7 +61,6 @@ public class JSONChoose extends Decorator {
 
     @Override
     public String operation(String jsonString, String names) throws JSONException {
-        System.out.println(Arrays.toString(names.split(",")));
         return choose(jsonString, names.split(","));
     }
 }
