@@ -201,6 +201,9 @@ public class JSONTransformerController {
 
     }
 
+    public String compareTest(String str1, String str2, JSONCompare component) {
+        return component.operation(str1, str2);
+    }
 
 }
 
