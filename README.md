@@ -16,6 +16,10 @@ UML:
 
 ![alt text](https://raw.githubusercontent.com/er713/IO_jsonTOOL/master/diagram%20klas.png)
 
+Projekt realizowany w metodyce SCRUM.
+Scrum master: Julia Tadej
+Product Owner: Jakub Raczyński
+
 Arkusz samooceny, link: https://drive.google.com/file/d/1QW0oihNclFe0EfyoKknbwADBRmrSgpBf/view?usp=sharing
 
 Trello, link: https://trello.com/b/1KIljPBX/json-tools
